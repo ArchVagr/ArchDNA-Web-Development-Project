@@ -1,0 +1,114 @@
+*{
+    font-family: 'IBM Plex Mono', monospace
+}
+
+.card3{
+    color: gray;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    transition: transform 0.2s ease;
+    display: inline-block
+}
+
+a:hover{
+    transform: translateY(-3px);
+}
+
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 8px 32px;
+    margin: 0;
+    border-bottom: 1px solid gray;
+}
+
+.header *{
+    margin: 0;
+}
+
+.header_name{
+    letter-spacing: 2px;
+    font-family: 'Fraunces', serif;
+}
+
+.header_choice{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 5px;
+    margin: 0;
+    padding: 8px 32px
+}
+
+
+.header_name_sub{
+    font-family: 'Fraunces', serif;
+}
+
+.title_1{
+    text-align: center;
+    margin-top: 84px;
+    font-size: 32px;
+    color: chocolate;
+}
+
+.text1{
+    text-align: center;
+    font-size: 64px;
+    gap: 5px;
+    letter-spacing: 2px;
+    padding: 2px 2px;
+}
+
+.text2{
+    text-align: center;
+    gap: 5px;
+    letter-spacing: 2px;
+    padding: 2px 2px;
+    color: gray;
+    font-size: 20px;
+}
+
+.cardholder{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+
+.card{
+    margin: 64px 24px;
+    border-radius: 8px;
+    border: 1px solid chocolate;
+    padding: 24px;
+    transform: 0.2s ease;
+}
+
+.card:hover{
+    transform: translateY(-3px);
+}
+
+.card1{
+    margin-bottom: 2px;
+    color: chocolate;
+}
+
+.button{
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    background-color: chocolate;
+    font-size: 32px;
+    border: 2px solid chocolate;
+    border-radius: 8px;
+    gap: 0px;
+}
+
+.button:hover{
+    box-shadow: 4px 8px orange;
+}
