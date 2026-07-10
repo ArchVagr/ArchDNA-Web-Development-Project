@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header_name">
+            ARCH <span class="header_name_sub">DNA</span>
+        </h1>
+
+        <div class="header_choice">
+            <h1 class="header_divider">Welcome,Admin!</h1>
+        </div>
+    </header>
+
+    <div class="form_container">
+        <form action="/adminarch/addpop" method="post" id="addpop_form">
+        
+        <h1>Add sample</h1>
+
+        <input type="text" name="period" placeholder="Period of the Sample : Bronze Age or etc." class="add_pop">
+
+        <input type="text" name="name" placeholder="Enter the name of the sample" class="add_pop">
+
+        <input type="text" name="age" placeholder="Enter the age of the sample" class="add_pop">
+
+        <input type="text" name="composition" placeholder="Enter the composition of the sample : ANF:40,WSH:50 and etc" class="add_pop">
+
+        <button type="submit">Submit</button>
+
+        </form>
+
+    </div>
+
+      <div class="form_container">
+        <form action="/adminarch/updatepop" method="post">
+        
+        <h1>Update sample</h1>
+
+        <input type="text" name="id" placeholder="Enter sample ID" >
+
+        <input type="text" name="period" placeholder="Period of the Sample : Bronze Age or etc." >
+
+        <input type="text" name="name" placeholder="Enter the name of the sample" >
+
+        <input type="text" name="age" placeholder="Enter the age of the sample" >
+
+        <input type="text" name="composition" placeholder="Enter the composition of the sample : ANF:40,WSH:50 and etc" >
+
+        <button type="submit">Submit</button>
+
+        </form>
+    </div>
+
+    <div class="form_container">
+
+        <h1>Remove sample</h1>
+
+        <form action="/adminarch/removepop" method="post">
+
+        <input type="text" name="id" placeholder="Enter the id">
+
+        <button type="submit">Submit</button>
+        
+        </form>
+    </div>
+    
+</body>
+<script src="/static/authorisation.js"></script>
+</html>

@@ -1,5 +1,30 @@
 const form = document.querySelector("form");
 
+const signup = document.getElementById('choice_button1')
+const login = document.getElementById('choice_button2')
+const title = document.getElementById('form_title')
+const button = document.getElementById('signlog_button')
+
+signup.addEventListener('click',(e)=>{
+    e.preventDefault()
+    login.classList.remove("choosed")
+    signup.classList.add("choosed")
+
+    form.action='/archdna/signup'
+    title.innerText='Sign Up'
+    button.innerText='Sign Up'
+})
+
+login.addEventListener('click',(e)=>{
+    e.preventDefault()
+    signup.classList.remove("choosed")
+    login.classList.add("choosed")
+
+    form.action='/archdna/login'
+    title.innerText='Log In'
+    button.innerText='Log In'
+})
+
 form.addEventListener("submit", (e) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

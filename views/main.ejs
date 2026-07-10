@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <link rel="stylesheet" href="/main.css">
+     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <h1 class="header_name">
+            ARCH <span class="header_name_sub">DNA</span>
+        </h1>
+
+        <div class="header_choice">
+            <h1 class="header_divider">User ID: <%= id %></h1>
+        </div>
+    </header>
+
+    <form action="/archdna/logout" method="post">
+        <button type="submit">Log Out</button>
+    </form>
+
+    <div class="samples_list">
+        <% samples.forEach((sample) => { %>
+
+            <a href="/archdna/sample/<%= sample.id %>" class="sample_item">
+                <div>
+                    <h1><%= sample.id %></h1>
+                    <h1><%= sample.name %></h1>
+                    <h2><%= sample.period %></h2>
+                    <p><%= sample.age %></p>
+                </div>
+            </a>
+
+        <% }) %>
+    </div>
+
+    <div class="page_counter">
+        <% if(currentPage!==1){%>
+            <a href="/archdna/main?page=<%= currentPage-1%>">Previous</a>
+        <% } %>
+            <a href="/archdna/main?page=<%= currentPage%>"><%= currentPage%></a>
+        <% if(currentPage < pages){%>
+            <a href="/archdna/main?page=<%= currentPage+1%>">Next</a>
+        <% } %>
+    </div>
+
+    <% if(id==7) {%>
+        <a href="/adminarch/admin">Admin Panel</a>
+    <% } %>
+</body>
+</html>

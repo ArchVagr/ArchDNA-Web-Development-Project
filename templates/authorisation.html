@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <title>Arch DNA</title>
     <link rel="stylesheet" href="/authorisation.css">
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 </head>
@@ -16,18 +16,18 @@
         </div>
     </header>
     <div class="choice_pannel">
-        <a href="#" class="a-choice choosed">Sign Up</a>
-        <a href="#" class="a-choice">Log In</a>
+        <a href="#" class="a-choice choosed" id="choice_button1">Sign Up</a>
+        <a href="#" class="a-choice" id="choice_button2">Log In</a>
     </div>
     <div class="register">
         <form action="/archdna/signup" method="post" class="form">
-            <h2 class="form_title">Sign Up</h2>
+            <h2 class="form_title" id="form_title">Sign Up</h2>
 
             <input type="email" name="email" placeholder="Enter your email..." id="email">
 
             <input type="text" name="password" placeholder="Enter your password..." id="password">
 
-            <button type="submit">Sign Up</button>
+            <button type="submit" id="signlog_button">Sign Up</button>
         </form>
     </div>
 </body>
