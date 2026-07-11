@@ -44,9 +44,48 @@ router.get("/main", (request, response) => {
     });
 });
 
+router.get("/sample",(request,response)=>{
+    const sampleid = request.query.id
+
+    db.get(
+        'SELECT * FROM Samples WHERE id = ?',
+        [sampleid],(error,sample)=>{
+            if(error){
+                console.log(error)
+                return response.status(500).send("Sample not found")
+            }
+
+            response.render("sample",
+                {name:sample.name,
+                 age:sample.age,
+                 composition:sample.composition,
+                 period:sample.period
+                }
+            )
+        }
+    )
+})
 router.post("/signup", async (request, response) => {
     const email = request.body.email;
     const password = request.body.password;
+
+    if (!email || !password) {
+        return response.send(`
+            <script>
+                alert("Email and password are required");
+                history.back();
+            </script>
+        `);
+    }
+
+    if (password.length < 8) {
+        return response.send(`
+            <script>
+                alert("Password must contain at least 8 characters");
+                history.back();
+            </script>
+        `);
+    }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -57,7 +96,13 @@ router.post("/signup", async (request, response) => {
             function (error) {
                 if (error) {
                     console.log(error.message);
-                    return response.status(500).send("Email is already registered");
+
+                    return response.send(`
+                        <script>
+                            alert("Email is already registered");
+                            history.back();
+                        </script>
+                    `);
                 }
 
                 request.session.userID = this.lastID;
@@ -67,10 +112,15 @@ router.post("/signup", async (request, response) => {
         );
     } catch (error) {
         console.log(error);
-        return response.status(500).send("Password hashing error");
+
+        return response.send(`
+            <script>
+                alert("Password hashing error");
+                history.back();
+            </script>
+        `);
     }
 });
-
 
 router.post("/login", (request, response) => {
     const email = request.body.email;
@@ -87,7 +137,12 @@ router.post("/login", (request, response) => {
 
             if (!account) {
                 console.log("Account not found");
-                return response.status(401).send("Invalid email or password");
+                return response.send(`
+                        <script>
+                            alert("Invalid email or password");
+                            history.back();
+                        </script>
+                    `);
             }
 
             try {
@@ -98,7 +153,12 @@ router.post("/login", (request, response) => {
 
                 if (!checkedPassword) {
                     console.log("Wrong password");
-                    return response.status(401).send("Invalid email or password");
+                     return response.send(`
+                        <script>
+                            alert("Invalid email or password");
+                            history.back();
+                        </script>
+                    `);
                 }
 
                 request.session.userID = account.id;

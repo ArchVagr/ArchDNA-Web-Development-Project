@@ -1,120 +1,295 @@
-*{
-    font-family: 'IBM Plex Mono', monospace
+* {
+    box-sizing: border-box;
+    font-family: "IBM Plex Mono", monospace;
 }
 
-.header{
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    color: #24172a;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(139, 59, 155, 0.07),
+            transparent 32%
+        ),
+        #faf8fb;
+}
+
+
+
+
+.header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 8px 32px;
+
+    padding: 16px 5%;
     margin: 0;
-    border-bottom: 1px solid gray;
+
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid #ded4e2;
+
+    box-shadow: 0 4px 18px rgba(44, 25, 48, 0.06);
+
+    backdrop-filter: blur(10px);
 }
 
-.header *{
+.header * {
     margin: 0;
 }
 
-.header_name{
-    letter-spacing: 2px;
-    font-family: 'Fraunces', serif;
+.header_name {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    color: #24172a;
 }
 
-.header_choice{
+.header_name_sub {
+    font-family: "Fraunces", Georgia, serif;
+    color: #8b3b9b;
+}
+
+.header_choice {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    gap: 5px;
+    justify-content: flex-end;
+    gap: 14px;
+
     margin: 0;
-    padding: 8px 32px
+    padding: 0;
+}
+
+.header_divider {
+    color: #66546b;
+    font-size: 15px;
 }
 
 
-.header_name_sub{
-    font-family: 'Fraunces', serif;
-}
 
-a{
+
+a {
+    display: inline-block;
+
+    color: #24172a;
     text-decoration: none;
-    color: black;
-    transition: transform 0.2s ease;
-    display: inline-block
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
-a:hover{
-    transform: translateY(-3px);
+a:hover {
+    color: #8b3b9b;
+    transform: translateY(-2px);
 }
 
-.register {
-    border: 2px solid black;
-    width: 500px;
-    height: 400px;
-    border-radius: 6px;
-    margin: 64px auto 0 auto;
 
-    display: flex;
-    justify-content: center; 
-    align-items: center;     
-}
-
-.register form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-
-    width: 300px;
-}
 
 .choice_pannel {
+    width: min(420px, calc(100% - 32px));
+    min-height: 64px;
+
+    margin: 42px auto 0;
+    padding: 8px 14px;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 32px;
-    margin: 32px auto 0 auto;
-    border: 2px solid black;
-    width: 400px;
-    height: 64px;
-    border-radius: 8px;
+    gap: 30px;
+
+    background: #ffffff;
+    border: 1px solid #e2d9e7;
+    border-radius: 12px;
+
+    box-shadow: 0 5px 15px rgba(44, 25, 48, 0.08);
 }
 
-.a-choice{
-    font-size: 32px;
-    border-bottom: 2px solid black;
-    border-radius: 4px;
+.a-choice {
+    padding: 8px 4px;
+
+    border-bottom: 2px solid transparent;
+
+    color: #746878;
+    font-size: 20px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
-.a-choice.choosed{
-    font-size: 32px;
-    color: chocolate;
-    border-bottom: 2px solid chocolate;
-    border-radius: 4px;
+.a-choice:hover {
+    color: #8b3b9b;
+    transform: translateY(-2px);
 }
 
-.form_title{
+.a-choice.choosed {
+    color: #8b3b9b;
+    border-bottom-color: #8b3b9b;
+}
+
+
+
+
+.register {
+    width: min(500px, calc(100% - 32px));
+    min-height: 400px;
+
+    margin: 28px auto 70px;
+    padding: 38px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #e2d9e7;
+    border-radius: 16px;
+
+    box-shadow:
+        0 12px 30px rgba(44, 25, 48, 0.1),
+        0 3px 10px rgba(44, 25, 48, 0.05);
+}
+
+.register form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form_title {
     align-self: center;
-    margin-bottom: 32px;
-}
+    margin: 0 0 18px;
 
-.register input{
-    border: none;
-    border-bottom:2px solid black
-}
-
-button{
-    display: block;
-    width: fit-content;
-    margin: 0 auto;
-    background-color: chocolate;
+    font-family: "Fraunces", Georgia, serif;
     font-size: 32px;
-    border: 2px solid chocolate;
-    border-radius: 8px;
-    gap: 0px;
-    margin-top: 32px;
-    transition: transform 0.2s ease
+    color: #24172a;
 }
 
-button:hover{
-    box-shadow: 4px 8px orange;
+
+
+
+.register input {
+    width: 100%;
+    padding: 13px 14px;
+
+    border: 1px solid #d9cddd;
+    border-radius: 9px;
+    outline: none;
+
+    color: #24172a;
+    background: #fcfafc;
+
+    font-size: 15px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.register input::placeholder {
+    color: #948899;
+}
+
+.register input:hover {
+    border-color: #b9a7c0;
+}
+
+.register input:focus {
+    border-color: #8b3b9b;
+    background: #ffffff;
+
+    box-shadow: 0 0 0 4px rgba(139, 59, 155, 0.12);
+}
+
+
+
+button {
+    display: block;
+    width: 100%;
+
+    margin: 12px auto 0;
+    padding: 13px 22px;
+
+    border: 1px solid #7a238c;
+    border-radius: 9px;
+
+    background: #7a238c;
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 14px rgba(122, 35, 140, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+button:hover {
+    background: #8b3b9b;
     transform: translateY(-3px);
+
+    box-shadow: 0 10px 22px rgba(122, 35, 140, 0.26);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+
+
+
+@media (max-width: 650px) {
+    .header {
+        padding: 18px 20px;
+
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .header_name {
+        font-size: 1.7rem;
+    }
+
+    .header_choice {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .choice_pannel {
+        margin-top: 28px;
+        gap: 20px;
+    }
+
+    .a-choice,
+    .a-choice.choosed {
+        font-size: 18px;
+    }
+
+    .register {
+        min-height: auto;
+        margin-top: 20px;
+        padding: 28px 22px;
+    }
+
+    .form_title {
+        font-size: 28px;
+    }
 }

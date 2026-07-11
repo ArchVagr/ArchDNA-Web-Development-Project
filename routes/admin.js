@@ -25,27 +25,31 @@ router.post('/addpop',(request,response)=>{
             console.log(error)
             return response.status(500).send("Database error")
             }
+
+            response.redirect('/admin')
         }
     )
 });
 
-router.post('/removepop',(request,response)=>{
-    const id = request.body.id
+router.post("/removepop", (request, response) => {
+    const id = request.body.id;
 
-    db.run('DELETE FROM Samples WHERE id = ?',
+    db.run(
+        "DELETE FROM Samples WHERE id = ?",
         [id],
-        function(error){
-            if(error){
-            console.log(error)
-            return response.status(500).send("Database error")
+        function (error) {
+            if (error) {
+                console.log(error);
+                return response.status(500).send("Database error");
             }
-        })
 
-        if(this.changes===0){
-            return response.status(404).send("Sample not found");
+            if (this.changes === 0) {
+                return response.status(404).send("Sample not found");
+            }
+
+            return response.redirect("/admin");
         }
-
-        return response.redirect("/admina");
+    );
 });
 
 router.post('/updatepop',(request,response)=>{

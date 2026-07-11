@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= name %></title>
+
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/sample.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="header_name">
+            ARCH <span class="header_name_sub">DNA</span>
+        </h1>
+
+        <div class="header_choice">
+            <h1 class="header_divider">Sample Page</h1>
+        </div>
+    </header>
+
+    <main class="sample_page">
+        <a class="back_link" href="/archdna/main?page=1">
+            ← Back to samples
+        </a>
+
+        <article class="sample_profile">
+            <p class="sample_label">Ancient DNA sample</p>
+
+            <h1 class="sample_name"><%= name %></h1>
+
+            <div class="sample_information">
+                <div class="information_item">
+                    <span>Period</span>
+                    <strong><%= period %></strong>
+                </div>
+
+                <div class="information_item">
+                    <span>Age</span>
+                    <strong><%= age %></strong>
+                </div>
+            </div>
+
+            <section class="composition_section">
+                <h2>Genetic composition</h2>
+
+                <ul class="composition_list">
+                    <% composition.split(",").forEach(component => { %>
+                        <li>
+                            <%= component.trim() %>
+                        </li>
+                    <% }) %>
+                </ul>
+            </section>
+        </article>
+    </main>
+</body>
+</html>

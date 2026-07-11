@@ -1,114 +1,303 @@
-*{
-    font-family: 'IBM Plex Mono', monospace
+* {
+    box-sizing: border-box;
+    font-family: "IBM Plex Mono", monospace;
 }
 
-.card3{
-    color: gray;
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    color: #24172a;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(139, 59, 155, 0.07),
+            transparent 32%
+        ),
+        #faf8fb;
 }
 
-a{
+
+
+
+a {
+    display: inline-block;
+
+    color: #24172a;
     text-decoration: none;
-    color: black;
-    transition: transform 0.2s ease;
-    display: inline-block
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
-a:hover{
-    transform: translateY(-3px);
+a:hover {
+    color: #8b3b9b;
+    transform: translateY(-2px);
 }
 
 
-.header{
+
+.header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 8px 32px;
+
+    padding: 16px 5%;
     margin: 0;
-    border-bottom: 1px solid gray;
+
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid #ded4e2;
+
+    box-shadow: 0 4px 18px rgba(44, 25, 48, 0.06);
+
+    backdrop-filter: blur(10px);
 }
 
-.header *{
+.header * {
     margin: 0;
 }
 
-.header_name{
-    letter-spacing: 2px;
-    font-family: 'Fraunces', serif;
+.header_name {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    color: #24172a;
 }
 
-.header_choice{
+.header_name_sub {
+    font-family: "Fraunces", Georgia, serif;
+    color: #8b3b9b;
+}
+
+.header_choice {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    gap: 5px;
+    justify-content: flex-end;
+    gap: 14px;
+
     margin: 0;
-    padding: 8px 32px
+    padding: 0;
+}
+
+.header_divider {
+    color: #66546b;
+    font-size: 15px;
 }
 
 
-.header_name_sub{
-    font-family: 'Fraunces', serif;
-}
 
-.title_1{
+
+.title_1 {
+    margin: 84px 0 14px;
+
     text-align: center;
-    margin-top: 84px;
-    font-size: 32px;
-    color: chocolate;
+
+    color: #8b3b9b;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-.text1{
+.text1 {
+    width: min(900px, 92%);
+    margin: 0 auto;
+
     text-align: center;
-    font-size: 64px;
-    gap: 5px;
-    letter-spacing: 2px;
-    padding: 2px 2px;
+
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(42px, 7vw, 72px);
+    line-height: 1.08;
+    letter-spacing: 1px;
+
+    color: #24172a;
 }
 
-.text2{
+.text2 {
+    width: min(760px, 88%);
+    margin: 22px auto 0;
+
     text-align: center;
-    gap: 5px;
-    letter-spacing: 2px;
-    padding: 2px 2px;
-    color: gray;
-    font-size: 20px;
+
+    color: #7d6d82;
+    font-size: 18px;
+    line-height: 1.7;
+    letter-spacing: 0.3px;
 }
 
-.cardholder{
-    display: flex;
-    align-self: center;
-    justify-content: center;
+
+
+
+.cardholder {
+    width: min(1100px, 90%);
+    margin: 55px auto 40px;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
 }
 
-.card{
-    margin: 64px 24px;
-    border-radius: 8px;
-    border: 1px solid chocolate;
-    padding: 24px;
-    transform: 0.2s ease;
+.card {
+    position: relative;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 26px;
+
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #e2d9e7;
+    border-radius: 14px;
+
+    box-shadow: 0 5px 15px rgba(44, 25, 48, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.card:hover{
-    transform: translateY(-3px);
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(
+        90deg,
+        #7a238c,
+        #a855b7
+    );
 }
 
-.card1{
-    margin-bottom: 2px;
-    color: chocolate;
+.card:hover {
+    transform: translateY(-5px);
+
+    border-color: #8b3b9b;
+
+    box-shadow: 0 12px 28px rgba(80, 35, 90, 0.16);
 }
 
-.button{
+.card1 {
+    margin: 0 0 12px;
+
+    color: #8b3b9b;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.card2 {
+    margin: 0 0 12px;
+
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 25px;
+    color: #24172a;
+}
+
+.card3 {
+    margin: 0;
+
+    color: #8a7a8e;
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+
+
+
+.button {
     display: block;
     width: fit-content;
-    margin: 0 auto;
-    background-color: chocolate;
-    font-size: 32px;
-    border: 2px solid chocolate;
-    border-radius: 8px;
-    gap: 0px;
+
+    margin: 36px auto 70px;
+    padding: 14px 26px;
+
+    border: 1px solid #7a238c;
+    border-radius: 9px;
+
+    background: #7a238c;
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    box-shadow: 0 5px 14px rgba(122, 35, 140, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.button:hover{
-    box-shadow: 4px 8px orange;
+.button:hover {
+    color: #ffffff;
+    background: #8b3b9b;
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 22px rgba(122, 35, 140, 0.26);
+}
+
+
+
+
+@media (max-width: 850px) {
+    .cardholder {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        max-width: 680px;
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 650px) {
+    .header {
+        padding: 18px 20px;
+
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .header_name {
+        font-size: 1.7rem;
+    }
+
+    .header_choice {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .title_1 {
+        margin-top: 55px;
+    }
+
+    .text1 {
+        font-size: 40px;
+    }
+
+    .text2 {
+        font-size: 16px;
+    }
+
+    .cardholder {
+        width: 92%;
+        margin-top: 38px;
+    }
+
+    .button {
+        font-size: 16px;
+        padding: 13px 22px;
+    }
 }

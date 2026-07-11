@@ -24,7 +24,7 @@
     <div class="samples_list">
         <% samples.forEach((sample) => { %>
 
-            <a href="/archdna/sample/<%= sample.id %>" class="sample_item">
+            <a href="/archdna/sample?id=<%= sample.id %>" class="sample_item">
                 <div>
                     <h1><%= sample.id %></h1>
                     <h1><%= sample.name %></h1>
