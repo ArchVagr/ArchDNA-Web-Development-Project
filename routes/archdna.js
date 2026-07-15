@@ -65,13 +65,12 @@ function createAccount(email,password){
             "INSERT INTO Accounts (email, password) VALUES (?, ?)",
             [email, password],function (error){
                 if(error){
-                    consoler.error(error)
+                    console.error(error)
                     return reject(error)
                 }
-               
+                resolve(this.lastID)
             }         
         )
-        resolve(this.lastID)
     })
 };
 
