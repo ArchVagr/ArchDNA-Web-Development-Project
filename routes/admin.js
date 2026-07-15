@@ -13,7 +13,7 @@ function getAdminAccount(id){
                     return reject(error)
                 }
 
-                resolve(account.role)
+                resolve(account)
             }
         )
     })
@@ -24,17 +24,17 @@ async function requireAdmin  ( request, response, next) {
         const account = await getAdminAccount(request.session.userID)
 
         if(!account){
-            response.status(500).send("Account not found ADMIN")
+           return response.status(403).send("Account not found ADMIN")
         }
 
-        if (account !== 'admin'){
-            response.status(500).send("Not admin")
+        if (account.role !== 'admin'){
+           return response.status(403).send("Not admin")
         }
 
         next();
     }catch(error){
         console.log(error)
-        response.status(500).send("Unknown error. Check the log")
+        return response.status(500).send("Unknown error. Check the log")
     }
 
 
