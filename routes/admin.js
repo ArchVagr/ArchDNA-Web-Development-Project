@@ -2,14 +2,42 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 const db = require("../database");
+const { error } = require("console");
 
+function getAdminAccount(id){
+    return new Promise(function(resolve,reject){
+        db.get("SELECT * FROM Accounts WHERE id = ?",
+            [id],(error,account) => {
+                if(error){
+                    console.log(error)
+                    return reject(error)
+                }
 
-function requireAdmin(request, response, next) {
-    if (request.session.userID !== 7) {
-        return response.status(403).send("Access denied");
+                resolve(account.role)
+            }
+        )
+    })
+}
+
+async function requireAdmin  ( request, response, next) {
+    try{
+        const account = await getAdminAccount(request.session.userID)
+
+        if(!account){
+            response.status(500).send("Account not found ADMIN")
+        }
+
+        if (account !== 'admin'){
+            response.status(500).send("Not admin")
+        }
+
+        next();
+    }catch(error){
+        console.log(error)
+        response.status(500).send("Unknown error. Check the log")
     }
 
-    next();
+
 }
 
 router.use(requireAdmin)
