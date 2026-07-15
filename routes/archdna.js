@@ -3,8 +3,94 @@ const path = require("path");
 const router = express.Router();
 const db = require("../database");
 const bcrypt = require('bcrypt');
-const { error, time } = require("console");
+const { error, time, assert } = require("console");
+const { resolve } = require("path");
 
+
+
+function findSamples(limit, offset) {
+    return new Promise(function (resolve, reject) {
+        db.all(
+            "SELECT * FROM Samples LIMIT ? OFFSET ?",
+            [limit, offset],
+            function (error, samples) {
+                if (error) {
+                    console.log(error.message);
+                    return reject(error);
+                }
+
+                resolve(samples);
+            }
+        );
+    });
+}
+
+function findCount() {
+    return new Promise(function (resolve, reject) {
+        db.get(
+            "SELECT COUNT(*) AS count FROM Samples",
+            [],
+            function (error, result) {
+                if (error) {
+                    console.log(error.message);
+                    return reject(error);
+                }
+
+                resolve(result.count);
+            }
+        );
+    });
+}
+
+function findSample(id) {
+    return new Promise(function (resolve, reject) {
+        db.get(
+            'SELECT * FROM Samples WHERE id = ?',
+            [id],
+            (error, sample) => {
+                if (error) {
+                    console.error(error);
+                    return reject(error);
+                }
+
+                resolve(sample);
+            }
+        );
+    });
+}
+
+function createAccount(email,password){
+    return new Promise(function(resolve,reject){
+        db.run(
+            "INSERT INTO Accounts (email, password) VALUES (?, ?)",
+            [email, password],function (error){
+                if(error){
+                    consoler.error(error)
+                    return reject(error)
+                }
+               
+            }         
+        )
+        resolve(this.lastID)
+    })
+};
+
+function getAccount(email) {
+    return new Promise(function (resolve, reject) {
+        db.get(
+            "SELECT * FROM Accounts WHERE email = ?",
+            [email],
+            (error, account) => {
+                if (error) {
+                    console.error(error.message);
+                    return reject(error);
+                }
+
+                resolve(account);
+            }
+        );
+    });
+}
 
 router.get("/registration", (request, response) => {
     response.sendFile(
@@ -12,7 +98,7 @@ router.get("/registration", (request, response) => {
     );
 });
 
-router.get("/main", (request, response) => {
+router.get("/main", async (request, response) => {
     const userID = request.session.userID
     const limit = 10
     const page = Number(request.query.page)
@@ -22,49 +108,42 @@ router.get("/main", (request, response) => {
         return response.redirect("/archdna/registration");
     }
 
-    db.all("SELECT * FROM Samples LIMIT ? OFFSET ?", [limit,offset], (error, samples) => {
-        if (error) {
-            console.log(error.message);
-            return response.status(500).send("Database error");
-        }
+    try {
+        const samples = await findSamples(limit, offset)
+        const count = await findCount()
 
-        db.get("SELECT COUNT(*) AS count FROM Samples", [], (error, result) => {
-            if (error) {
-                console.log(error.message);
-                return response.status(500).send("Database error");
-            }
-
-            response.render("main", {
-                samples: samples,
-                pages: Math.ceil(result.count/10),
-                currentPage:page,
-                id:userID
-            });
+        response.render("main", {
+            samples: samples,
+            pages: Math.ceil(count/10),
+            currentPage: page,
+            id: userID
         });
-    });
+    } catch (error) {
+        console.log(error.message);
+        return response.status(500).send("Database error");
+    }
 });
 
-router.get("/sample",(request,response)=>{
+
+router.get("/sample",async (request,response)=>{
     const sampleid = request.query.id
 
-    db.get(
-        'SELECT * FROM Samples WHERE id = ?',
-        [sampleid],(error,sample)=>{
-            if(error){
-                console.log(error)
-                return response.status(500).send("Sample not found")
-            }
+    try{
+        const sample = await findSample(sampleid)
 
-            response.render("sample",
+        response.render("sample",
                 {name:sample.name,
                  age:sample.age,
                  composition:sample.composition,
                  period:sample.period
-                }
-            )
-        }
-    )
-})
+                })
+    }catch(error){
+        console.log(error.message)
+        return response.status(500).send("Database error")
+    }
+});
+
+
 router.post("/signup", async (request, response) => {
     const email = request.body.email;
     const password = request.body.password;
@@ -90,86 +169,80 @@ router.post("/signup", async (request, response) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        db.run(
-            "INSERT INTO Accounts (email, password) VALUES (?, ?)",
-            [email, hashedPassword],
-            function (error) {
-                if (error) {
-                    console.log(error.message);
-
-                    return response.send(`
-                        <script>
-                            alert("Email is already registered");
-                            history.back();
-                        </script>
-                    `);
-                }
-
-                request.session.userID = this.lastID;
-
-                return response.redirect("/archdna/main?page=1");
-            }
+        request.session.userID = await createAccount(
+            email,
+            hashedPassword
         );
-    } catch (error) {
-        console.log(error);
 
-        return response.send(`
+        return response.redirect("/archdna/main?page=1");
+    } catch (error) {
+        console.error(error);
+
+        if (error.code === "SQLITE_CONSTRAINT") {
+            return response.send(`
+                <script>
+                    alert("Email is already registered");
+                    history.back();
+                </script>
+            `);
+        }
+
+        return response.status(500).send(`
             <script>
-                alert("Password hashing error");
+                alert("Registration error");
                 history.back();
             </script>
         `);
     }
 });
 
-router.post("/login", (request, response) => {
+router.post("/login", async (request, response) => {
     const email = request.body.email;
     const password = request.body.password;
 
-    db.get(
-        "SELECT * FROM Accounts WHERE email = ?",
-        [email],
-        async (error, account) => {
-            if (error) {
-                console.log(error.message);
-                return response.status(500).send("Database error");
-            }
+    try {
+        const account = await getAccount(email);
 
-            if (!account) {
-                console.log("Account not found");
-                return response.send(`
-                        <script>
-                            alert("Invalid email or password");
-                            history.back();
-                        </script>
-                    `);
-            }
+        if (!account) {
+            console.log("Account not found");
 
-            try {
-                const checkedPassword = await bcrypt.compare(
-                    password,
-                    account.password
-                );
-
-                if (!checkedPassword) {
-                    console.log("Wrong password");
-                     return response.send(`
-                        <script>
-                            alert("Invalid email or password");
-                            history.back();
-                        </script>
-                    `);
-                }
-
-                request.session.userID = account.id;
-
-                return response.redirect("/archdna/main?page=1");
-            } catch (error) {
-                console.log(error.message);
-                return response.status(500).send("Login error");
-            }
+            return response.send(`
+                <script>
+                    alert("Invalid email or password");
+                    history.back();
+                </script>
+            `);
         }
-    );
+
+        const checkedPassword = await bcrypt.compare(
+            password,
+            account.password
+        );
+
+        if (!checkedPassword) {
+            console.log("Wrong password");
+
+            return response.send(`
+                <script>
+                    alert("Invalid email or password");
+                    history.back();
+                </script>
+            `);
+        }
+
+        request.session.userID = account.id;
+
+        return response.redirect("/archdna/main?page=1");
+    } catch (error) {
+        console.error(error);
+
+        return response.status(500).send(`
+            <script>
+                alert("Login error");
+                history.back();
+            </script>
+        `);
+    }
 });
 
 router.post("/logout",(request,response)=>{

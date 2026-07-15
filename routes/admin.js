@@ -4,12 +4,18 @@ const router = express.Router();
 const db = require("../database");
 
 
-router.get('/admin',(request,response)=>{
-    if(request.session.userID==7){
-        response.sendFile(path.join(__dirname,"..",'templates','admin.html'))
-    }else{
-        response.redirect("/archdna/main")
+function requireAdmin(request, response, next) {
+    if (request.session.userID !== 7) {
+        return response.status(403).send("Access denied");
     }
+
+    next();
+}
+
+router.use(requireAdmin)
+
+router.get('/admin',(request,response)=>{
+    response.sendFile(path.join(__dirname,'..','templates','admin.html'))
 })
 
 router.post('/addpop',(request,response)=>{
@@ -26,7 +32,7 @@ router.post('/addpop',(request,response)=>{
             return response.status(500).send("Database error")
             }
 
-            response.redirect('/admin')
+            response.redirect('/adminarch/admin')
         }
     )
 });
@@ -47,7 +53,7 @@ router.post("/removepop", (request, response) => {
                 return response.status(404).send("Sample not found");
             }
 
-            return response.redirect("/admin");
+            return response.redirect("/adminarch/admin");
         }
     );
 });
@@ -70,7 +76,7 @@ router.post('/updatepop',(request,response)=>{
             if (this.changes === 0) {
                 return response.status(404).send("Sample not found");
             }
-            return response.redirect("/admin");
+            return response.redirect("/adminarch/admin");
         })
 
         
