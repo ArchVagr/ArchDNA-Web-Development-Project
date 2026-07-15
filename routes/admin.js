@@ -111,7 +111,7 @@ router.post('/updatepop',(request,response)=>{
     const age = request.body.age?.trim();
     const composition = request.body.composition?.trim();
 
-    if (!period || !name || !age || !composition || id) {
+    if (!period || !name || !age || !composition || !id) {
         return response.send(`
             <script>
                 alert("All fields required");
