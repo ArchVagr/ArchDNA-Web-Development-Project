@@ -47,10 +47,19 @@ router.get('/admin',(request,response)=>{
 })
 
 router.post('/addpop',(request,response)=>{
-    const period = request.body.period
-    const name = request.body.name
-    const age = request.body.age
-    const composition = request.body.composition
+    const period = request.body.period?.trim();
+    const name = request.body.name?.trim();
+    const age = request.body.age?.trim();
+    const composition = request.body.composition?.trim();
+
+    if (!period || !name || !age || !composition) {
+        return response.send(`
+            <script>
+                alert("All fields required");
+                history.back();
+            </script>
+        `);
+    }
 
     db.run('INSERT INTO Samples (period, name, age, composition) VALUES (? , ? , ? , ?)',
         [period,name,age,composition],
@@ -66,7 +75,16 @@ router.post('/addpop',(request,response)=>{
 });
 
 router.post("/removepop", (request, response) => {
-    const id = request.body.id;
+    const id = request.body.id?.trim();
+
+    if (!id){
+        return response.send(`
+            <script>
+                alert("Email and password are required");
+                history.back();
+            </script>
+        `);
+    }
 
     db.run(
         "DELETE FROM Samples WHERE id = ?",
@@ -87,11 +105,20 @@ router.post("/removepop", (request, response) => {
 });
 
 router.post('/updatepop',(request,response)=>{
-    const id = request.body.id
-    const period = request.body.period
-    const name = request.body.name
-    const age = request.body.age
-    const composition = request.body.composition
+    const id = request.body.id?.trim();
+    const period = request.body.period?.trim();
+    const name = request.body.name?.trim();
+    const age = request.body.age?.trim();
+    const composition = request.body.composition?.trim();
+
+    if (!period || !name || !age || !composition || id) {
+        return response.send(`
+            <script>
+                alert("All fields required");
+                history.back();
+            </script>
+        `);
+    }
 
     db.run('UPDATE Samples SET period = ? ,name = ? ,age = ? ,composition = ? WHERE id = ?',
         [period,name,age,composition,id],
