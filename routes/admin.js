@@ -80,7 +80,7 @@ router.post("/removepop", (request, response) => {
     if (!id){
         return response.send(`
             <script>
-                alert("Email and password are required");
+                alert("All fields required");
                 history.back();
             </script>
         `);

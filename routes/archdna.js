@@ -91,6 +91,23 @@ function getAccount(email) {
     });
 }
 
+function getRole(id) {
+    return new Promise(function (resolve, reject) {
+        db.get(
+            "SELECT role FROM Accounts WHERE id = ?",
+            [id],
+            (error, row) => {
+                if (error) {
+                    console.error(error.message);
+                    return reject(error);
+                }
+                resolve(row ? row.role : null);
+            }
+        );
+    });
+}
+
+
 router.get("/registration", (request, response) => {
     response.sendFile(
         path.join(__dirname, "..", "templates", "authorisation.html")
@@ -98,24 +115,23 @@ router.get("/registration", (request, response) => {
 });
 
 router.get("/main", async (request, response) => {
-    const userID = request.session.userID
-    const limit = 10
-    const page = Number(request.query.page)
-    const offset = (page - 1)*10
+    const userID = request.session.userID;
 
     if (!userID) {
         return response.redirect("/archdna/registration");
     }
 
     try {
-        const samples = await findSamples(limit, offset)
-        const count = await findCount()
+        const role = await getRole(userID);
+        const samples = await findSamples(limit, offset);
+        const count = await findCount();
 
         response.render("main", {
-            samples: samples,
-            pages: Math.ceil(count/10),
+            samples,
+            pages: Math.ceil(count / 10),
             currentPage: page,
-            id: userID
+            id: userID,
+            role,
         });
     } catch (error) {
         console.log(error.message);
