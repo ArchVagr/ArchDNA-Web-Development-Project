@@ -117,13 +117,16 @@ router.get("/registration", (request, response) => {
 router.get("/main", async (request, response) => {
     const userID = request.session.userID;
 
+    const limit = 10
+    const page = request.query.page
+
     if (!userID) {
         return response.redirect("/archdna/registration");
     }
 
     try {
         const role = await getRole(userID);
-        const samples = await findSamples(limit, offset);
+        const samples = await findSamples(limit, page);
         const count = await findCount();
 
         response.render("main", {
